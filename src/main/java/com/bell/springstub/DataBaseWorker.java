@@ -5,7 +5,7 @@ import com.bell.springstub.model.User;
 import java.sql.*;
 
 public class DataBaseWorker {
-    private final String url = "jdbc:postgresql://192.168.1.88:5432/mydb";
+    private final String url = "jdbc:postgresql://localhost:5432/mydb";
     private final String user = "admin";
     private final String password = "secret";
 
