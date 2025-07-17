@@ -30,6 +30,7 @@ public class DataBaseWorker {
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("DB connection error", e);
         }
         return userObj;
