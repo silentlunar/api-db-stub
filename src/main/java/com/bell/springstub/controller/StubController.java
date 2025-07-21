@@ -18,9 +18,6 @@ public class StubController {
     public ResponseEntity<User> get(@RequestParam String login) {
         makeDelay();
         User user = dbWorker.getUserByLogin(login);
-        if (user == null) {
-            throw new RuntimeException("Пользователь не найден");
-        }
         return ResponseEntity.ok(user);
     }
 

@@ -10,31 +10,35 @@ public class DataBaseWorker {
     private final String password = "secret";
 
     public User getUserByLogin(String login) {
-        User userObj = null;
         String query = "SELECT u.login, u.password, e.email, u.date " +
                 "FROM users u JOIN user_emails e ON u.login = e.login " +
                 "WHERE u.login = ?";
+
         try (
                 Connection conn = DriverManager.getConnection(url, user, password);
-                PreparedStatement ps = conn.prepareStatement(query)
+                PreparedStatement ps = conn.prepareStatement(query);
         ) {
             ps.setString(1, login);
+
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    userObj = new User(
+                    return new User(
                             rs.getString("login"),
                             rs.getString("password"),
                             rs.getString("email"),
                             rs.getTimestamp("date")
                     );
+                } else {
+                    throw new RuntimeException("Пользователь не найден: " + login);
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("DB connection error", e);
+            throw new RuntimeException("Ошибка подключения к БД", e);
         }
-        return userObj;
     }
+
 
     public int insertUser(User user) {
         String query = "INSERT INTO users (login, password, date) VALUES (?, ?, ?);\n" +
@@ -50,6 +54,7 @@ public class DataBaseWorker {
             updatedRows = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("DB connection error", e);
         }
         return updatedRows;
     }

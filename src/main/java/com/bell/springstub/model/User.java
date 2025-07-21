@@ -18,11 +18,4 @@ public class User {
     @NotBlank(message = "Адресс почты не должен быть пустым")
     private String email;
     private Date date;
-
-    public User(String login, String password, String email) {
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.date = new Date(System.currentTimeMillis());
-    }
 }
