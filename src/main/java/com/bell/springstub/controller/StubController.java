@@ -41,9 +41,10 @@ public class StubController {
 
     @GetMapping("/leak")
     public ResponseEntity<String> leak(@RequestParam String login) {
+        makeDelay();
         User user = dbWorker.getUserByLogin(login);
         LEAKED_USERS.add(user);
-        return ResponseEntity.ok("Утечка памяти. Добавлен пользователь: " + user.getLogin());
+        return ResponseEntity.ok("Утечка памяти. Найден пользователь: " + user.getLogin());
     }
 
     private void makeDelay() {
