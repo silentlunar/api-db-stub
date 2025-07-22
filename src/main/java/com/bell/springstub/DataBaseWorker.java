@@ -1,9 +1,11 @@
 package com.bell.springstub;
 
 import com.bell.springstub.model.User;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
+@Component
 public class DataBaseWorker {
     private final String url = "jdbc:postgresql://postgres:5432/mydb";
     private final String user = "admin";
@@ -54,7 +56,7 @@ public class DataBaseWorker {
             updatedRows = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("DB connection error", e);
+            throw new RuntimeException("Ошибка подключения к БД", e);
         }
         return updatedRows;
     }
