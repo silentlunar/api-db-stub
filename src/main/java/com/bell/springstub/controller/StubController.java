@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,9 @@ public class StubController {
 
     private final DataBaseWorker dbWorker;
 
-    private static final List<User> LEAKED_USERS = new ArrayList<>();
+    private static final List<User> ARRAY_USERS = new ArrayList<>();
+    private static final List<User> LEAKED_USERS = new LinkedList<>();
+
 
     @Autowired
     public StubController(DataBaseWorker dbWorker) {
@@ -43,6 +46,7 @@ public class StubController {
     public ResponseEntity<String> leak(@RequestParam String login) {
         makeDelay();
         User user = dbWorker.getUserByLogin(login);
+        ARRAY_USERS.add(user);
         LEAKED_USERS.add(user);
         return ResponseEntity.ok("Утечка памяти. Найден пользователь: " + user.getLogin());
     }
