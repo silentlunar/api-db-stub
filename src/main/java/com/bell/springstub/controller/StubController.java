@@ -19,7 +19,6 @@ public class StubController {
     private final DataBaseWorker dbWorker;
 
     private static final List<User> ARRAY_USERS = new ArrayList<>();
-    private static final List<User> LEAKED_USERS = new LinkedList<>();
 
 
     @Autowired
@@ -46,9 +45,10 @@ public class StubController {
     public ResponseEntity<String> leak(@RequestParam String login) {
         makeDelay();
         User user = dbWorker.getUserByLogin(login);
-        ARRAY_USERS.add(user);
-        LEAKED_USERS.add(user);
-        return ResponseEntity.ok("Утечка памяти. Найден пользователь: " + user.getLogin());
+        for (int i = 0; i < 100; i++) {
+            ARRAY_USERS.add(user);
+        }
+        return ResponseEntity.ok("утечка памяти. Пользователь: " + user.getLogin());
     }
 
     private void makeDelay() {
